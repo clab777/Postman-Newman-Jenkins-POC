@@ -1,0 +1,16 @@
+{
+  "name": "postman-newman-jenkins-poc",
+  "version": "1.0.0",
+  "description": "POC Api Testing with Postman Collections",
+  "directories": {
+    "test": "tests"
+  }
+  "scripts": {
+    "api-tests-prod": "newman run tests/poc_api_test_postman_collection.json "
+  },
+  "author": "Christophe Labarere",
+  "dependencies": {
+    "newman": "^5.2.1",
+    "newman-reporter-htmlextra": "^1.19.4"
+  }
+}
