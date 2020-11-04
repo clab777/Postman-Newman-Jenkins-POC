@@ -1,23 +1,22 @@
 pipeline {
-    agent { docker { image 'node:8.12.0' } }
-    environment {
-        HOME = '.'
+    agent any
+    environment { 
+      HOME="."
+      NPM_CONFIG_PREFIX="${pwd()}/.npm-global"
+      PATH="$PATH:${pwd()}/.npm-global/bin:${pwd tmp: true}/.npm-global/bin"
     }
-    stages {
-        stage('SCM Checkout') {
-            steps {
-                git 'https://github.com/clab777/Postman-Newman-Jenkins-POC.git'
-            }
-        }
-        stage('Package Install') {
-            steps {
-                sh 'npm install'
-            }
+    withEnv(["PATH=$PATH", /*or*/ "PATH=${PATH}", /*or*/ "PATH+NPM=${pwd()}/.npm-global/bin:${pwd tmp: true}/.npm-global/bin"]) {
+      stages {
+        stage('NPM Config') {
+          steps { 
+              sh 'npm install'
+          }
         }
         stage('Run Tests') {
             steps {
                 sh 'npm api-tests-prod'
             }
         }
+      }
     }
-}
+  }
